@@ -42,10 +42,12 @@ test("protects onboarding without requesting database access first", async ({
   ).toBeVisible();
 });
 
-test("protects projects before project data is requested", async ({ page }) => {
+test("protects projects in the shared private app layout", async ({ page }) => {
   await page.goto("/app/projects");
 
-  await expect(page).toHaveURL(/\/login\?returnTo=%2Fapp%2Fprojects$/);
+  // The shared /app layout owns the anonymous fallback and intentionally sends
+  // users to the canonical Today destination after authentication.
+  await expect(page).toHaveURL(/\/login\?returnTo=%2Fapp%2Ftoday$/);
   await expect(
     page.getByRole("heading", {
       level: 1,
