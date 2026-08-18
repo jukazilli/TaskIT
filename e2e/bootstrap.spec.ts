@@ -11,8 +11,12 @@ test("loads the TaskIT bootstrap shell responsively", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  const viewportWidth = await page.evaluate(() => document.documentElement.clientWidth);
-  const contentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+  const viewportWidth = await page.evaluate(
+    () => document.documentElement.clientWidth,
+  );
+  const contentWidth = await page.evaluate(
+    () => document.documentElement.scrollWidth,
+  );
 
   expect(contentWidth).toBeLessThanOrEqual(viewportWidth);
 });
