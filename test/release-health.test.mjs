@@ -17,18 +17,44 @@ test("health exposes deployment identity without exposing secret values", async 
 
   assert.match(source, /VERCEL_GIT_COMMIT_SHA/);
   assert.match(source, /VERCEL_ENV/);
+  assert.match(source, /databaseBranch: databaseHealth\.branchId/);
   assert.match(source, /status: ready \? "ok" : "degraded"/);
   assert.match(source, /auth: authConfigured/);
-  assert.match(source, /database: databaseConfigured/);
+  assert.match(
+    source,
+    /database: databaseConfigured && databaseHealth\.reachable/,
+  );
   assert.doesNotMatch(source, /NEON_AUTH_COOKIE_SECRET[,}]/);
   assert.doesNotMatch(source, /DATABASE_URL[,}]/);
 });
 
-test("Vercel deployments fail health readiness when required runtime config is absent", async () => {
+test("health verifies the real Neon runtime instead of env presence only", async () => {
+  const source = await read(healthUrl);
+
+  assert.match(source, /getSql\(\)/);
+  assert.match(source, /current_setting\('neon\.branch_id', true\)/);
+  assert.match(source, /current_setting\('neon\.endpoint_id', true\)/);
+  assert.match(source, /to_regclass\('taskit\.app_user'\)/);
+  assert.match(source, /to_regclass\('taskit\.project'\)/);
+  assert.match(source, /to_regclass\('taskit\.task'\)/);
+  assert.match(source, /schema: databaseHealth\.schemaReady/);
+});
+
+test("health requires Neon Auth and database to resolve to the same endpoint", async () => {
+  const source = await read(healthUrl);
+
+  assert.match(source, /readAuthEndpointId/);
+  assert.match(source, /databaseHealth\.endpointId === authEndpointId/);
+  assert.match(source, /authDatabaseAligned/);
+});
+
+test("Vercel deployments fail health readiness when required runtime config is absent or unhealthy", async () => {
   const source = await read(healthUrl);
 
   assert.match(source, /process\.env\.VERCEL === "1"/);
-  assert.match(source, /authConfigured && databaseConfigured/);
+  assert.match(source, /databaseHealth\.reachable/);
+  assert.match(source, /databaseHealth\.schemaReady/);
+  assert.match(source, /authDatabaseAligned/);
   assert.match(source, /status: ready \? 200 : 503/);
   assert.match(source, /Cache-Control/);
 });
