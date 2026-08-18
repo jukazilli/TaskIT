@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import styles from "./onboarding.module.css";
 
@@ -11,17 +11,13 @@ type TimezoneFieldProps = Readonly<{
 export function TimezoneField({ initialTimezone }: TimezoneFieldProps) {
   const [timezone, setTimezone] = useState(initialTimezone);
 
-  useEffect(() => {
-    if (initialTimezone !== "UTC") {
-      return;
-    }
-
+  function useDeviceTimezone() {
     const detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     if (detected) {
       setTimezone(detected);
     }
-  }, [initialTimezone]);
+  }
 
   return (
     <label className={styles.field} htmlFor="timezone">
@@ -36,6 +32,15 @@ export function TimezoneField({ initialTimezone }: TimezoneFieldProps) {
         value={timezone}
       />
       <small>Usamos um identificador IANA, como America/Sao_Paulo.</small>
+      {initialTimezone === "UTC" ? (
+        <button
+          className={styles.detectTimezone}
+          onClick={useDeviceTimezone}
+          type="button"
+        >
+          Usar fuso deste dispositivo
+        </button>
+      ) : null}
     </label>
   );
 }
