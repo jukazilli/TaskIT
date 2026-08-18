@@ -17,9 +17,9 @@ test("shows the TaskIT sign-in entry", async ({ page }) => {
 test("redirects an unauthenticated user away from the private app", async ({
   page,
 }) => {
-  await page.goto("/app");
+  await page.goto("/app/today");
 
-  await expect(page).toHaveURL(/\/login\?returnTo=%2Fapp$/);
+  await expect(page).toHaveURL(/\/login\?returnTo=%2Fapp%2Ftoday$/);
   await expect(
     page.getByRole("heading", {
       level: 1,
