@@ -27,7 +27,7 @@ O produto combina planejamento semanal, tarefas, sessões de estudo, cronograma 
 
 ### Requisitos
 
-- Node.js 20.9 ou superior; recomendamos a linha LTS definida em `.nvmrc`.
+- Node.js 24 LTS, igual ao runtime de CI e Vercel e definido em `.nvmrc`.
 - npm disponível com a instalação do Node.js.
 
 ### Instalação
