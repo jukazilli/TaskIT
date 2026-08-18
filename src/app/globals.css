@@ -11,7 +11,6 @@ body {
   margin: 0;
   color: var(--color-text);
   background: var(--color-background);
-  font-family: var(--font-sans);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
   -webkit-font-smoothing: antialiased;
@@ -69,13 +68,13 @@ select {
   letter-spacing: 0.04em;
 }
 
-h1 {
+.bootstrap-card h1 {
   margin: 0;
   max-width: 18ch;
-  font-size: clamp(var(--text-display-size), 7vw, 3.5rem);
-  line-height: 1.05;
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-line);
   font-weight: var(--font-weight-bold);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
 }
 
 .bootstrap-copy {

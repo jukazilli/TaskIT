@@ -23,6 +23,8 @@ Antes de alterar código, leia nesta ordem:
 - Toda entrada externa é não confiável e deve ser validada na fronteira apropriada.
 - Integrações externas devem ficar atrás de adapters explícitos.
 - Revise responsividade e acessibilidade quando houver UI.
+- Local, GitHub Actions e Vercel devem usar a mesma major de Node.js definida em `.nvmrc`/`package.json`.
+- Publique cada fatia coerente em commit multi-arquivo buildável; não envie estados intermediários inválidos apenas para montar a implementação arquivo por arquivo.
 
 ## Antes de entregar
 
@@ -36,4 +38,19 @@ npm test
 npm run build
 ```
 
-Registre no PR o backlog item, testes executados, decisões, limitações e configurações necessárias.
+Um pipeline local/GitHub verde não é suficiente para declarar uma alteração entregue quando ela afeta a aplicação publicada.
+
+Para cada PR que gera deployment Vercel:
+
+1. confirme que o status `Vercel` está verde para o **SHA exato** do head do PR;
+2. confirme que o deployment metadata `githubCommitSha` é o mesmo SHA;
+3. consulte `/api/health` no deployment e confirme `status = ok` e `release` igual ao SHA esperado;
+4. não use um deployment `READY` de outro commit como evidência do commit atual.
+
+Após merge em `main`:
+
+1. confirme que o deployment `production` foi criado para o SHA exato de `main`;
+2. confirme `/api/health` no domínio de produção;
+3. se GitHub CI estiver verde mas Vercel/build/runtime falhar, a entrega permanece **não concluída** até a causa ser corrigida.
+
+Registre no PR o backlog item, testes executados, SHA verificado na Vercel, decisões, limitações e configurações necessárias.

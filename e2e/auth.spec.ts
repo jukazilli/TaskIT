@@ -41,3 +41,15 @@ test("protects onboarding without requesting database access first", async ({
     }),
   ).toBeVisible();
 });
+
+test("protects projects before project data is requested", async ({ page }) => {
+  await page.goto("/app/projects");
+
+  await expect(page).toHaveURL(/\/login\?returnTo=%2Fapp%2Ftoday$/);
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Que bom ter você de volta.",
+    }),
+  ).toBeVisible();
+});

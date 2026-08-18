@@ -7,7 +7,6 @@ import "./globals.css";
 const nunito = Nunito({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-nunito",
 });
 
 export const metadata: Metadata = {
@@ -21,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={nunito.variable}>{children}</body>
+    <html lang="pt-BR" className={nunito.className}>
+      <body>{children}</body>
     </html>
   );
 }

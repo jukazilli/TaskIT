@@ -20,3 +20,19 @@ test("loads the TaskIT bootstrap shell responsively", async ({ page }) => {
 
   expect(contentWidth).toBeLessThanOrEqual(viewportWidth);
 });
+
+test("applies the self-hosted Nunito family at runtime", async ({ page }) => {
+  await page.goto("/");
+
+  const typography = await page.evaluate(async () => {
+    await document.fonts.ready;
+
+    return {
+      fontStatus: document.fonts.status,
+      bodyFontFamily: getComputedStyle(document.body).fontFamily,
+    };
+  });
+
+  expect(typography.fontStatus).toBe("loaded");
+  expect(typography.bodyFontFamily.toLowerCase()).toContain("nunito");
+});
