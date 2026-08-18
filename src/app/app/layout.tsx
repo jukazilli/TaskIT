@@ -23,11 +23,16 @@ export default async function AppLayout({ children }: AppLayoutProps) {
     if (error instanceof AuthServiceUnavailableError) {
       return (
         <main className="bootstrap-shell">
-          <section className="bootstrap-card" aria-labelledby="auth-error-title">
+          <section
+            className="bootstrap-card"
+            aria-labelledby="auth-error-title"
+          >
             <span className="bootstrap-mark" aria-hidden="true" />
             <div>
               <p className="bootstrap-eyebrow">TaskIT</p>
-              <h1 id="auth-error-title">Não foi possível confirmar sua sessão.</h1>
+              <h1 id="auth-error-title">
+                Não foi possível confirmar sua sessão.
+              </h1>
               <p className="bootstrap-copy">
                 O serviço de autenticação não respondeu como esperado. Você pode
                 tentar novamente sem perder nenhum dado.

@@ -20,7 +20,13 @@ async function read(url) {
 test("desktop and mobile preserve the same primary product destinations", async () => {
   const source = await read(shellSourceUrl);
 
-  for (const destination of ["Hoje", "Semana", "Projetos", "Cronograma", "Inbox"]) {
+  for (const destination of [
+    "Hoje",
+    "Semana",
+    "Projetos",
+    "Cronograma",
+    "Inbox",
+  ]) {
     assert.match(source, new RegExp(`label: \\"${destination}\\"`));
   }
 
@@ -37,7 +43,10 @@ test("mobile shell uses touch-sized solid navigation surfaces", async () => {
   assert.match(css, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
   assert.match(css, /min-height: 3\.75rem/);
   assert.match(css, /background: var\(--color-surface\)/);
-  assert.doesNotMatch(css, /backdrop-filter|color-mix|linear-gradient|radial-gradient/i);
+  assert.doesNotMatch(
+    css,
+    /backdrop-filter|color-mix|linear-gradient|radial-gradient/i,
+  );
 });
 
 test("all app routes share server-side session protection", async () => {

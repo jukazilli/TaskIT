@@ -241,7 +241,8 @@
   .content {
     min-height: calc(100vh - 8rem);
     margin-left: 0;
-    padding: var(--space-6) var(--space-4) calc(5.5rem + env(safe-area-inset-bottom));
+    padding: var(--space-6) var(--space-4)
+      calc(5.5rem + env(safe-area-inset-bottom));
   }
 
   .mobileNav {

@@ -95,7 +95,13 @@ function isCurrentPath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function NavLink({ item, compact = false }: { item: NavItem; compact?: boolean }) {
+function NavLink({
+  item,
+  compact = false,
+}: {
+  item: NavItem;
+  compact?: boolean;
+}) {
   const pathname = usePathname();
   const active = isCurrentPath(pathname, item.href);
   const Icon = item.icon;
@@ -125,7 +131,11 @@ export function AppShell({ children, userName, userEmail }: AppShellProps) {
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar} aria-label="Navegação principal">
-        <Link className={styles.brand} href="/app/today" aria-label="TaskIT — Hoje">
+        <Link
+          className={styles.brand}
+          href="/app/today"
+          aria-label="TaskIT — Hoje"
+        >
           <span className={styles.brandMark} aria-hidden="true" />
           <span>TaskIT</span>
         </Link>
@@ -137,7 +147,13 @@ export function AppShell({ children, userName, userEmail }: AppShellProps) {
         </nav>
 
         <div className={styles.sidebarFooter}>
-          <NavLink item={{ href: "/app/settings", label: "Configurações", icon: SettingsIcon }} />
+          <NavLink
+            item={{
+              href: "/app/settings",
+              label: "Configurações",
+              icon: SettingsIcon,
+            }}
+          />
           <div className={styles.account}>
             <span className={styles.avatar} aria-hidden="true">
               {displayName.slice(0, 1).toUpperCase()}
@@ -155,7 +171,11 @@ export function AppShell({ children, userName, userEmail }: AppShellProps) {
       </aside>
 
       <header className={styles.mobileHeader}>
-        <Link className={styles.mobileBrand} href="/app/today" aria-label="TaskIT — Hoje">
+        <Link
+          className={styles.mobileBrand}
+          href="/app/today"
+          aria-label="TaskIT — Hoje"
+        >
           <span className={styles.brandMark} aria-hidden="true" />
           <span>TaskIT</span>
         </Link>
