@@ -27,3 +27,17 @@ test("redirects an unauthenticated user away from the private app", async ({
     }),
   ).toBeVisible();
 });
+
+test("protects onboarding without requesting database access first", async ({
+  page,
+}) => {
+  await page.goto("/onboarding");
+
+  await expect(page).toHaveURL(/\/login\?returnTo=%2Fonboarding$/);
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Que bom ter você de volta.",
+    }),
+  ).toBeVisible();
+});
