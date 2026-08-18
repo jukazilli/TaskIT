@@ -116,6 +116,23 @@
   line-height: var(--text-small-line);
   font-weight: var(--font-weight-regular);
 }
+.detectTimezone {
+  justify-self: start;
+  min-height: 2.75rem;
+  border: 0;
+  padding: 0;
+  color: var(--color-ink-700);
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.detectTimezone:hover {
+  color: var(--color-ink-950);
+}
 .calendarNote {
   padding: var(--space-4);
   border-radius: var(--radius-lg);
