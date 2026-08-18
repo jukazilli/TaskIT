@@ -54,7 +54,9 @@ function projectMutationError(error: unknown): ProjectFormState | null {
     error instanceof DatabaseUnavailableError ||
     error instanceof ProjectUserMissingError
   ) {
-    return { error: "Não foi possível salvar o projeto agora. Tente novamente." };
+    return {
+      error: "Não foi possível salvar o projeto agora. Tente novamente.",
+    };
   }
 
   if (error instanceof ProjectNotFoundError) {

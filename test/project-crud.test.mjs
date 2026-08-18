@@ -33,7 +33,10 @@ test("project repository scopes reads and writes through app_user auth subject",
   assert.match(repository, /project\.archived_at IS NULL/);
   assert.match(repository, /project\.archived_at IS NOT NULL/);
   assert.doesNotMatch(repository, /DELETE FROM taskit\.project/i);
-  assert.match(repository, /archived_at = COALESCE\(project\.archived_at, now\(\)\)/);
+  assert.match(
+    repository,
+    /archived_at = COALESCE\(project\.archived_at, now\(\)\)/,
+  );
 });
 
 test("project form validation keeps persisted options controlled", async () => {

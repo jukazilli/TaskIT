@@ -15,7 +15,9 @@ export default function ProjectsLoading() {
           <span className={styles.emptyMark} aria-hidden="true" />
           <div>
             <h2>Carregando seus projetos…</h2>
-            <p>Estamos preparando apenas o contexto necessário para esta visão.</p>
+            <p>
+              Estamos preparando apenas o contexto necessário para esta visão.
+            </p>
           </div>
         </div>
       </div>

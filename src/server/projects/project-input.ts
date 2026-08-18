@@ -17,12 +17,7 @@ export type ProjectInput = Readonly<{
 }>;
 
 export type ProjectField =
-  | "name"
-  | "description"
-  | "status"
-  | "dueDate"
-  | "colorKey"
-  | "iconKey";
+  "name" | "description" | "status" | "dueDate" | "colorKey" | "iconKey";
 
 export type ProjectValidationResult =
   | Readonly<{ ok: true; value: ProjectInput }>
@@ -42,7 +37,9 @@ function isIsoDate(value: string) {
   }
 
   const date = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
+  return (
+    !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value
+  );
 }
 
 export function parseProjectInput(formData: FormData): ProjectValidationResult {

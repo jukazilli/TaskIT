@@ -44,7 +44,10 @@ function formatArchiveDate(value: string) {
   }).format(new Date(value));
 }
 
-function ProjectCard({ project, archived }: Readonly<{ project: Project; archived: boolean }>) {
+function ProjectCard({
+  project,
+  archived,
+}: Readonly<{ project: Project; archived: boolean }>) {
   return (
     <article className={styles.projectCard} data-color={project.colorKey}>
       <div className={styles.projectHeading}>
@@ -55,7 +58,9 @@ function ProjectCard({ project, archived }: Readonly<{ project: Project; archive
             <span className={styles.status} data-status={project.status}>
               {projectStatusLabels[project.status]}
             </span>
-            {project.dueDate ? <span>Prazo {formatDate(project.dueDate)}</span> : null}
+            {project.dueDate ? (
+              <span>Prazo {formatDate(project.dueDate)}</span>
+            ) : null}
             {archived && project.archivedAt ? (
               <span>Arquivado {formatArchiveDate(project.archivedAt)}</span>
             ) : null}
@@ -80,7 +85,9 @@ function ProjectCard({ project, archived }: Readonly<{ project: Project; archive
   );
 }
 
-export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
+export default async function ProjectsPage({
+  searchParams,
+}: ProjectsPageProps) {
   const params = await searchParams;
   const session = await getCurrentAuthSession();
 
@@ -110,7 +117,8 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
     }
   }
 
-  const showEditor = wantsCreate || Boolean(editingProject) || Boolean(editorError);
+  const showEditor =
+    wantsCreate || Boolean(editingProject) || Boolean(editorError);
 
   return (
     <section className={styles.page} aria-labelledby="projects-title">
@@ -135,7 +143,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       ) : null}
 
       <nav className={styles.viewNav} aria-label="Visualização de projetos">
-        <Link aria-current={!archived ? "page" : undefined} href="/app/projects">
+        <Link
+          aria-current={!archived ? "page" : undefined}
+          href="/app/projects"
+        >
           Ativos
         </Link>
         <Link
@@ -152,28 +163,41 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className={styles.emptyState}>
               <span className={styles.emptyMark} aria-hidden="true" />
               <div>
-                <h2>{archived ? "Nenhum projeto arquivado." : "Seu primeiro projeto começa aqui."}</h2>
+                <h2>
+                  {archived
+                    ? "Nenhum projeto arquivado."
+                    : "Seu primeiro projeto começa aqui."}
+                </h2>
                 <p>
                   {archived
                     ? "Projetos arquivados continuam disponíveis para consulta histórica."
                     : "Crie um resultado que valha acompanhar, como uma certificação, disciplina ou meta de idioma."}
                 </p>
                 {!archived ? (
-                  <Link href="/app/projects?mode=create">Criar primeiro projeto</Link>
+                  <Link href="/app/projects?mode=create">
+                    Criar primeiro projeto
+                  </Link>
                 ) : null}
               </div>
             </div>
           ) : (
             <div className={styles.projectList}>
               {projects.map((project) => (
-                <ProjectCard archived={archived} key={project.id} project={project} />
+                <ProjectCard
+                  archived={archived}
+                  key={project.id}
+                  project={project}
+                />
               ))}
             </div>
           )}
         </div>
 
         {showEditor ? (
-          <aside className={styles.editor} aria-labelledby="project-editor-title">
+          <aside
+            className={styles.editor}
+            aria-labelledby="project-editor-title"
+          >
             <div className={styles.editorHeader}>
               <div>
                 <p>{editingProject ? "Editar projeto" : "Novo projeto"}</p>

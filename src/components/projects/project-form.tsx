@@ -40,13 +40,17 @@ export function ProjectForm({ project }: ProjectFormProps) {
   const [state, formAction] = useActionState(action, initialState);
   const prefix = project?.id ?? "new-project";
 
-  function fieldError(field: keyof NonNullable<ProjectFormState["fieldErrors"]>) {
+  function fieldError(
+    field: keyof NonNullable<ProjectFormState["fieldErrors"]>,
+  ) {
     return state.fieldErrors?.[field];
   }
 
   return (
     <form action={formAction} className={styles.form}>
-      {project ? <input name="projectId" type="hidden" value={project.id} /> : null}
+      {project ? (
+        <input name="projectId" type="hidden" value={project.id} />
+      ) : null}
 
       {state.error ? (
         <p className={styles.formError} role="alert">
@@ -57,7 +61,9 @@ export function ProjectForm({ project }: ProjectFormProps) {
       <label className={styles.field} htmlFor={`${prefix}-name`}>
         <span>Nome</span>
         <input
-          aria-describedby={fieldError("name") ? `${prefix}-name-error` : undefined}
+          aria-describedby={
+            fieldError("name") ? `${prefix}-name-error` : undefined
+          }
           aria-invalid={fieldError("name") ? true : undefined}
           defaultValue={project?.name ?? ""}
           id={`${prefix}-name`}
@@ -77,7 +83,9 @@ export function ProjectForm({ project }: ProjectFormProps) {
         <span>Descrição curta</span>
         <textarea
           aria-describedby={
-            fieldError("description") ? `${prefix}-description-error` : undefined
+            fieldError("description")
+              ? `${prefix}-description-error`
+              : undefined
           }
           aria-invalid={fieldError("description") ? true : undefined}
           defaultValue={project?.description ?? ""}
@@ -88,7 +96,10 @@ export function ProjectForm({ project }: ProjectFormProps) {
           rows={3}
         />
         {fieldError("description") ? (
-          <small className={styles.fieldError} id={`${prefix}-description-error`}>
+          <small
+            className={styles.fieldError}
+            id={`${prefix}-description-error`}
+          >
             {fieldError("description")}
           </small>
         ) : (
@@ -125,7 +136,10 @@ export function ProjectForm({ project }: ProjectFormProps) {
             type="date"
           />
           {fieldError("dueDate") ? (
-            <small className={styles.fieldError} id={`${prefix}-due-date-error`}>
+            <small
+              className={styles.fieldError}
+              id={`${prefix}-due-date-error`}
+            >
               {fieldError("dueDate")}
             </small>
           ) : null}
