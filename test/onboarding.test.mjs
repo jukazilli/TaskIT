@@ -29,7 +29,7 @@ test("onboarding stays minimal and Calendar remains optional", async () => {
 
   assert.match(page, /Como sua semana funciona\?/);
   assert.match(page, /Google Calendar é opcional\./);
-  assert.match(page, /Nenhuma permissão Google é necessária para continuar\./);
+  assert.match(page, /Nenhuma permissão Google é necessária para\s+continuar\./);
   assert.match(page, /name="timezone"|TimezoneField/);
   assert.match(page, /name="weekStart"/);
   assert.match(page, /name="defaultSessionMinutes"/);
