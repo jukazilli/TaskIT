@@ -60,9 +60,9 @@ export default async function AppPage() {
           Olá{session.name ? `, ${session.name}` : ""}.
         </h1>
         <p className={styles.copy}>
-          Sua identidade foi recuperada no servidor. A partir daqui, as
-          próximas capacidades do TaskIT serão sempre escopadas ao usuário
-          autenticado — nunca a um identificador enviado pelo cliente.
+          Sua identidade foi recuperada no servidor. A partir daqui, as próximas
+          capacidades do TaskIT serão sempre escopadas ao usuário autenticado —
+          nunca a um identificador enviado pelo cliente.
         </p>
       </section>
     </main>

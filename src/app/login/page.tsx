@@ -14,11 +14,14 @@ type LoginPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
-  "invalid-credentials": "E-mail ou senha não conferem. Revise e tente novamente.",
-  "invalid-signup": "Informe nome, e-mail e uma senha com pelo menos 8 caracteres.",
+  "invalid-credentials":
+    "E-mail ou senha não conferem. Revise e tente novamente.",
+  "invalid-signup":
+    "Informe nome, e-mail e uma senha com pelo menos 8 caracteres.",
   "missing-fields": "Preencha e-mail e senha para continuar.",
   "signup-failed": "Não foi possível criar sua conta com esses dados.",
-  unavailable: "Não foi possível acessar o serviço de autenticação. Tente novamente.",
+  unavailable:
+    "Não foi possível acessar o serviço de autenticação. Tente novamente.",
 };
 
 function safeReturnTo(value?: string) {
