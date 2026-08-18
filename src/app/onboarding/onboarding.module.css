@@ -1,0 +1,178 @@
+.shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--color-background);
+}
+
+.card,
+.notice {
+  width: min(100%, 38rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+.card {
+  padding: var(--space-10);
+}
+.notice {
+  padding: var(--space-8);
+}
+
+.notice h1 {
+  margin: 0;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line);
+}
+
+.notice p,
+.copy,
+.field small,
+.calendarNote p {
+  color: var(--color-text-muted);
+}
+
+.notice p {
+  margin: var(--space-3) 0 0;
+}
+.notice a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--space-4);
+  color: var(--color-ink-950);
+  font-weight: var(--font-weight-bold);
+}
+
+.header {
+  max-width: 32rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+  font-size: var(--text-h3-size);
+  font-weight: var(--font-weight-bold);
+}
+.mark {
+  width: var(--space-3);
+  height: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-500);
+}
+.step {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  font-weight: var(--font-weight-medium);
+}
+.header h1 {
+  margin: 0;
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-line);
+  letter-spacing: -0.025em;
+}
+.copy {
+  margin: var(--space-3) 0 0;
+}
+.error {
+  margin: var(--space-6) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-brand-100);
+}
+.form {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+.field {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-ink-950);
+  font-weight: var(--font-weight-medium);
+}
+.field input,
+.field select {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-3);
+  color: var(--color-ink-950);
+  background: var(--color-surface);
+}
+.field input:hover,
+.field select:hover {
+  border-color: var(--color-ink-600);
+}
+.field small {
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  font-weight: var(--font-weight-regular);
+}
+.detectTimezone {
+  justify-self: start;
+  min-height: 2.75rem;
+  border: 0;
+  padding: 0;
+  color: var(--color-ink-700);
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.detectTimezone:hover {
+  color: var(--color-ink-950);
+}
+.calendarNote {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+}
+.calendarNote strong {
+  display: block;
+}
+.calendarNote p {
+  margin: var(--space-2) 0 0;
+}
+.submit {
+  width: 100%;
+  min-height: 3rem;
+}
+
+@media (max-width: 47.999rem) {
+  .shell {
+    place-items: start stretch;
+    padding: 0;
+    background: var(--color-surface);
+  }
+  .card,
+  .notice {
+    width: 100%;
+    min-height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+  .card {
+    padding: var(--space-6) var(--space-4);
+  }
+  .brand {
+    margin-bottom: var(--space-10);
+  }
+  .header h1 {
+    font-size: var(--text-h1-size);
+    line-height: var(--text-h1-line);
+  }
+  .form {
+    margin-top: var(--space-6);
+  }
+}
