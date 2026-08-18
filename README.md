@@ -23,6 +23,48 @@ O produto combina planejamento semanal, tarefas, sessões de estudo, cronograma 
 - **Distribuição inicial:** browser + instalação PWA em desktop e mobile.
 - **Evolução nativa:** possível posteriormente através de shell nativo, sem duplicar domínio e backend.
 
+## Desenvolvimento local
+
+### Requisitos
+
+- Node.js 20.9 ou superior; recomendamos a linha LTS definida em `.nvmrc`.
+- npm disponível com a instalação do Node.js.
+
+### Instalação
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Abra `http://localhost:3000`.
+
+### Quality gates
+
+```bash
+npm run format:check
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Nenhum segredo deve ser adicionado ao repositório. Variáveis de Neon, autenticação e Google Calendar serão introduzidas nos respectivos itens do backlog.
+
+## Estrutura inicial
+
+```text
+src/
+  app/          # App Router e apresentação de rota
+  components/   # componentes reutilizáveis
+  features/     # capacidades funcionais do produto
+  domain/       # regras de negócio puras
+  lib/          # utilitários técnicos compartilhados
+  server/       # banco, serviços e integrações server-side
+  test/         # suporte compartilhado de testes
+```
+
 ## Documentação
 
 1. [Briefing do produto](docs/00-product-brief.md)
