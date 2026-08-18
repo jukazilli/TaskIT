@@ -15,7 +15,7 @@ test("user identity stays outside the provider-owned auth schema", async () => {
   const sql = await migrationSql();
 
   assert.match(sql, /CREATE SCHEMA IF NOT EXISTS taskit;/);
-  assert.match(sql, /auth_subject text NOT NULL UNIQUE/);
+  assert.match(sql, /auth_subject uuid NOT NULL UNIQUE/);
   assert.doesNotMatch(sql, /REFERENCES\s+neon_auth\./i);
   assert.doesNotMatch(sql, /ALTER\s+(?:TABLE|SCHEMA)\s+neon_auth/i);
 });
