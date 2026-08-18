@@ -53,6 +53,13 @@ jobs:
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # Public development-branch Auth endpoint. E2E only performs anonymous
+      # session checks; it never creates or mutates users.
+      NEON_AUTH_BASE_URL: https://ep-solitary-king-awo05x6w.neonauth.c-12.us-east-1.aws.neon.tech/neondb/auth
+      # Runner-only signing key for an anonymous smoke session cache.
+      # This is deliberately not a production/development application secret.
+      NEON_AUTH_COOKIE_SECRET: taskit-ci-only-cookie-secret-never-use-outside-ci
 
     steps:
       - name: Checkout
