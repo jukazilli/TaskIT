@@ -69,7 +69,7 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Run responsive smoke tests
         run: npm run test:e2e
