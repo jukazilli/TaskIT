@@ -4,10 +4,9 @@ CREATE SCHEMA IF NOT EXISTS taskit;
 
 CREATE TABLE taskit.app_user (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  auth_subject text NOT NULL UNIQUE,
+  auth_subject uuid NOT NULL UNIQUE,
   created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now(),
-  CONSTRAINT app_user_auth_subject_not_blank CHECK (length(btrim(auth_subject)) > 0)
+  updated_at timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE TABLE taskit.user_preferences (
