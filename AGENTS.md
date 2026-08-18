@@ -24,6 +24,7 @@ Antes de alterar código, leia nesta ordem:
 - Integrações externas devem ficar atrás de adapters explícitos.
 - Revise responsividade e acessibilidade quando houver UI.
 - Local, GitHub Actions e Vercel devem usar a mesma major de Node.js definida em `.nvmrc`/`package.json`.
+- Publique cada fatia coerente em commit multi-arquivo buildável; não envie estados intermediários inválidos apenas para montar a implementação arquivo por arquivo.
 
 ## Antes de entregar
 
