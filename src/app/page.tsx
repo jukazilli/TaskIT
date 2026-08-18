@@ -6,9 +6,7 @@ export default function Home() {
         <div>
           <p className="bootstrap-eyebrow">TaskIT</p>
           <h1 id="taskit-title">Sua semana de estudos, com clareza.</h1>
-          <p className="bootstrap-copy">
-            A fundação técnica está pronta para receber o planejamento do produto.
-          </p>
+          <p className="bootstrap-copy">A fundação técnica está pronta para receber o planejamento do produto.</p>
         </div>
       </section>
     </main>
