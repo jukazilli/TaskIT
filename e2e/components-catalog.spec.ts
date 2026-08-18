@@ -9,7 +9,11 @@ test("renders the local component catalog with common states", async ({ page }) 
       name: "Catálogo de componentes",
     }),
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: "Salvar plano" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Salvar plano" }),
+  ).toBeVisible();
   await expect(page.getByLabel("Tarefa")).toBeVisible();
-  await expect(page.getByText("Informe um título para continuar.")).toBeVisible();
+  await expect(
+    page.getByText("Informe um título para continuar."),
+  ).toBeVisible();
 });
