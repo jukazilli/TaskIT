@@ -1,0 +1,39 @@
+name: TASKIT-202 source formatting
+
+on:
+  push:
+    branches:
+      - agent/taskit-202-project-crud
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/taskit-202-project-crud
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npx prettier --write src/features/projects/project-options.ts src/server/projects/project-input.ts src/server/projects/projects.ts src/server/projects/actions.ts src/components/projects/project-form.tsx src/components/projects/project-form.module.css src/components/projects/project-mark.tsx src/app/app/projects/page.tsx src/app/app/projects/page.module.css src/app/app/projects/loading.tsx src/app/app/projects/error.tsx test/project-crud.test.mjs e2e/auth.spec.ts
+      - name: Commit formatting
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No formatting changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/features/projects/project-options.ts src/server/projects/project-input.ts src/server/projects/projects.ts src/server/projects/actions.ts src/components/projects/project-form.tsx src/components/projects/project-form.module.css src/components/projects/project-mark.tsx src/app/app/projects/page.tsx src/app/app/projects/page.module.css src/app/app/projects/loading.tsx src/app/app/projects/error.tsx test/project-crud.test.mjs e2e/auth.spec.ts
+          git commit -m "style: format project CRUD"
+          git push origin HEAD:agent/taskit-202-project-crud
