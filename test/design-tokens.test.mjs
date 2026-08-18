@@ -15,17 +15,20 @@ test("TaskIT exposes the canonical brand and surface tokens", async () => {
   assert.match(tokens, /--focus-ring-width:\s*2px/);
 });
 
-test("TaskIT loads Nunito through next font", async () => {
+test("TaskIT applies Nunito directly from the root layout", async () => {
   const layout = await readFile(layoutPath, "utf8");
+  const tokens = await readFile(tokensPath, "utf8");
 
   assert.match(layout, /Nunito/);
-  assert.match(layout, /--font-nunito/);
+  assert.match(layout, /<html[^>]*className=\{nunito\.className\}/);
+  assert.doesNotMatch(layout, /variable:\s*["']--font-nunito["']/);
+  assert.doesNotMatch(tokens, /--font-sans/);
 });
 
 test("global styles consume tokens and respect reduced motion", async () => {
   const globals = await readFile(globalsPath, "utf8");
 
-  assert.match(globals, /font-family:\s*var\(--font-sans\)/);
+  assert.doesNotMatch(globals, /font-family:\s*var\(--font-sans\)/);
   assert.match(globals, /:focus-visible/);
   assert.match(globals, /prefers-reduced-motion:\s*reduce/);
 });
