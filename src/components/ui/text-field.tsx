@@ -22,7 +22,11 @@ export function TextField({
 }: TextFieldProps) {
   const message = error ?? hint;
   const messageId = message ? `${id}-message` : undefined;
-  const inputClasses = [styles.input, error ? styles.invalid : undefined, className]
+  const inputClasses = [
+    styles.input,
+    error ? styles.invalid : undefined,
+    className,
+  ]
     .filter(Boolean)
     .join(" ");
 
