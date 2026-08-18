@@ -1,9 +1,8 @@
 name: Check Vercel bootstrap credential
 
 on:
-  push:
-    branches:
-      - agent/taskit-003-vercel-bootstrap
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
