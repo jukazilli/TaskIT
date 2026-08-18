@@ -44,8 +44,7 @@
   --radius-pill: 999px;
 
   /* Typography */
-  --font-sans: var(--font-nunito), "Nunito", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  --font-sans: var(--font-nunito), sans-serif;
   --text-display-size: 2rem;
   --text-display-line: 2.5rem;
   --text-h1-size: 1.625rem;
