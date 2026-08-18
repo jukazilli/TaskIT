@@ -14,8 +14,12 @@
   background: var(--color-surface);
 }
 
-.card { padding: var(--space-10); }
-.notice { padding: var(--space-8); }
+.card {
+  padding: var(--space-10);
+}
+.notice {
+  padding: var(--space-8);
+}
 
 .notice h1 {
   margin: 0;
@@ -30,7 +34,9 @@
   color: var(--color-text-muted);
 }
 
-.notice p { margin: var(--space-3) 0 0; }
+.notice p {
+  margin: var(--space-3) 0 0;
+}
 .notice a {
   min-height: 2.75rem;
   display: inline-flex;
@@ -40,7 +46,9 @@
   font-weight: var(--font-weight-bold);
 }
 
-.header { max-width: 32rem; }
+.header {
+  max-width: 32rem;
+}
 .brand {
   display: inline-flex;
   align-items: center;
@@ -68,7 +76,9 @@
   line-height: var(--text-display-line);
   letter-spacing: -0.025em;
 }
-.copy { margin: var(--space-3) 0 0; }
+.copy {
+  margin: var(--space-3) 0 0;
+}
 .error {
   margin: var(--space-6) 0 0;
   padding: var(--space-3) var(--space-4);
@@ -98,7 +108,9 @@
   background: var(--color-surface);
 }
 .field input:hover,
-.field select:hover { border-color: var(--color-ink-600); }
+.field select:hover {
+  border-color: var(--color-ink-600);
+}
 .field small {
   font-size: var(--text-small-size);
   line-height: var(--text-small-line);
@@ -109,8 +121,12 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface-2);
 }
-.calendarNote strong { display: block; }
-.calendarNote p { margin: var(--space-2) 0 0; }
+.calendarNote strong {
+  display: block;
+}
+.calendarNote p {
+  margin: var(--space-2) 0 0;
+}
 .submit {
   width: 100%;
   min-height: 3rem;
@@ -129,11 +145,17 @@
     border: 0;
     border-radius: 0;
   }
-  .card { padding: var(--space-6) var(--space-4); }
-  .brand { margin-bottom: var(--space-10); }
+  .card {
+    padding: var(--space-6) var(--space-4);
+  }
+  .brand {
+    margin-bottom: var(--space-10);
+  }
   .header h1 {
     font-size: var(--text-h1-size);
     line-height: var(--text-h1-line);
   }
-  .form { margin-top: var(--space-6); }
+  .form {
+    margin-top: var(--space-6);
+  }
 }

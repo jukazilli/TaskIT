@@ -3,7 +3,10 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const urls = {
-  migration: new URL("../migrations/0002_onboarding_state.sql", import.meta.url),
+  migration: new URL(
+    "../migrations/0002_onboarding_state.sql",
+    import.meta.url,
+  ),
   page: new URL("../src/app/onboarding/page.tsx", import.meta.url),
   action: new URL("../src/server/onboarding/actions.ts", import.meta.url),
   repository: new URL("../src/server/users/preferences.ts", import.meta.url),

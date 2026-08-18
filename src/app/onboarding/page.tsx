@@ -126,7 +126,9 @@ export default async function OnboardingPage({
               <option value="1">Segunda-feira</option>
               <option value="7">Domingo</option>
             </select>
-            <small>Isso organiza a visão semanal; não limita seus estudos.</small>
+            <small>
+              Isso organiza a visão semanal; não limita seus estudos.
+            </small>
           </label>
 
           <label className={styles.field} htmlFor="defaultSessionMinutes">
@@ -149,7 +151,8 @@ export default async function OnboardingPage({
             <strong>Google Calendar é opcional.</strong>
             <p>
               Você pode entrar no TaskIT agora e conectar seu calendário depois,
-              quando quiser. Nenhuma permissão Google é necessária para continuar.
+              quando quiser. Nenhuma permissão Google é necessária para
+              continuar.
             </p>
           </aside>
 
