@@ -55,7 +55,7 @@ test("projects surface active, archived, loading and recovery states", async () 
   const loading = await read("loading");
   const error = await read("error");
 
-  assert.match(page, />Ativos</);
+  assert.match(page, />\s*Ativos\s*</);
   assert.match(page, />\s*Arquivados\s*</);
   assert.match(page, /Novo projeto/);
   assert.match(page, /archiveProjectAction/);
