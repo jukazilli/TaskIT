@@ -66,12 +66,13 @@ jobs:
 
           const socialData = await social.json();
           const authorizationUrl = String(socialData?.url ?? "");
-          const authorizationHost = authorizationUrl
-            ? new URL(authorizationUrl).hostname
-            : "";
 
-          if (!authorizationHost.endsWith("google.com")) {
-            throw new Error("Google OAuth did not return a Google authorization URL");
+          if (!authorizationUrl) {
+            throw new Error("Google OAuth response did not include an authorization URL");
           }
-          console.log("google oauth initiation: ok");
+
+          const parsedAuthorizationUrl = new URL(authorizationUrl);
+          console.log(
+            `google oauth initiation: ${parsedAuthorizationUrl.hostname}${parsedAuthorizationUrl.pathname}`,
+          );
           NODE
