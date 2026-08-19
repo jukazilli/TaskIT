@@ -1,0 +1,67 @@
+name: TASKIT-108 backlog update
+
+on:
+  push:
+    branches:
+      - docs/taskit-108-backlog
+
+permissions:
+  contents: write
+
+jobs:
+  update-backlog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: docs/taskit-108-backlog
+      - name: Update canonical backlog
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("docs/06-backlog.md")
+          text = path.read_text()
+
+          if "## TASKIT-108 — Landing pública, identidade visual e SEO" not in text:
+              replacements = [
+                  (
+                      "- **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105 e TASKIT-106;",
+                      "- **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105, TASKIT-106 e TASKIT-108;",
+                  ),
+                  (
+                      "- TASKIT-204 está publicado em produção.",
+                      "- TASKIT-204 está publicado em produção;\n- TASKIT-108 está publicado em produção com landing pública, assets de marca, favicon e fundação de SEO validados.",
+                  ),
+                  (
+                      "### Regra arquitetural\nA identidade de login e uma futura conexão Google Calendar são relações distintas. Mesmo quando a pessoa entra com Google, o acesso às agendas só pode ser concedido por um consentimento incremental e explícito do M4.\n\n---\n\n# M2 — Projetos, tarefas e inbox",
+                      "### Regra arquitetural\nA identidade de login e uma futura conexão Google Calendar são relações distintas. Mesmo quando a pessoa entra com Google, o acesso às agendas só pode ser concedido por um consentimento incremental e explícito do M4.\n\n---\n\n## TASKIT-108 — Landing pública, identidade visual e SEO\n\n**Prioridade:** P0\n**Depende de:** TASKIT-006, TASKIT-102\n\n### Objetivo\nSubstituir o placeholder técnico de `/` por uma entrada pública do TaskIT que explique o produto, fortaleça a identidade da marca e direcione corretamente para autenticação.\n\n### Escopo\n- landing responsiva desktop/mobile;\n- CTAs de entrar e criar conta;\n- wordmark/mark vetoriais e favicon;\n- metadata SEO, canonical, Open Graph e Twitter;\n- robots, sitemap e manifest;\n- mockups de produto leves em HTML/CSS;\n- E2E da entrada pública e dos caminhos de autenticação;\n- funcionalidades futuras precisam ser identificadas como futuras, sem promessas enganosas.\n\n### Aceite\n- `/` apresenta o produto e não o bootstrap técnico;\n- entrar e criar conta direcionam aos modos corretos de autenticação;\n- logo e favicon carregam como assets próprios;\n- home possui metadata de indexação e compartilhamento;\n- `/login` permanece fora do índice;\n- landing não produz overflow horizontal em mobile/desktop;\n- Production pública entrega a landing no SHA do release e `/api/health` permanece saudável.\n\n---\n\n# M2 — Projetos, tarefas e inbox",
+                  ),
+                  (
+                      "`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`",
+                      "`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107/108 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`",
+                  ),
+                  (
+                      "No estado atual, a execução está concluída até TASKIT-204 no caminho crítico. A sequência imediata recomendada é:",
+                      "No estado atual, a execução está concluída até TASKIT-204 no caminho crítico, e TASKIT-108 também está concluído como fundação pública do produto. A sequência imediata recomendada é:",
+                  ),
+              ]
+
+              for old, new in replacements:
+                  if old not in text:
+                      raise SystemExit(f"Anchor not found: {old[:80]}")
+                  text = text.replace(old, new, 1)
+
+              path.write_text(text)
+          PY
+
+          if git diff --quiet -- docs/06-backlog.md; then
+            echo "Backlog already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/06-backlog.md
+          git commit -m "docs: record TASKIT-108 completion"
+          git push origin HEAD:docs/taskit-108-backlog
