@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - diag/taskit-107-auth-smoke
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
