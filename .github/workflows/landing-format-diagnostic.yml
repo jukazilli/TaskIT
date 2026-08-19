@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feat/taskit-108-public-landing
+  pull_request:
+    branches:
+      - main
 
 jobs:
   inspect:
