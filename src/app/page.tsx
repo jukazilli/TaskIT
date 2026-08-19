@@ -136,8 +136,8 @@ export default function Home() {
           </h1>
           <p className={styles.heroLead}>
             TaskIT reúne tarefas, projetos e planejamento semanal em um lugar
-            leve. Capture o que precisa fazer, priorize o que importa e adapte
-            a rotina sem transformar organização em mais uma obrigação.
+            leve. Capture o que precisa fazer, priorize o que importa e adapte a
+            rotina sem transformar organização em mais uma obrigação.
           </p>
 
           <div className={styles.heroActions}>
@@ -270,7 +270,9 @@ export default function Home() {
         <div>
           <p className={styles.eyebrow}>Comece pelo essencial</p>
           <h2>Organizar seus estudos não deveria consumir sua energia.</h2>
-          <p>Crie sua conta e comece pela Inbox. O resto pode vir aos poucos.</p>
+          <p>
+            Crie sua conta e comece pela Inbox. O resto pode vir aos poucos.
+          </p>
         </div>
         <div className={styles.finalActions}>
           <Link className={styles.primaryCta} href="/login?mode=signup">
