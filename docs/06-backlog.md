@@ -32,7 +32,7 @@ Um item só entra como concluído aqui quando os critérios de aceite relevantes
 ### Concluídos
 
 - **M0:** TASKIT-001, TASKIT-002, TASKIT-003, TASKIT-004, TASKIT-005, TASKIT-006, TASKIT-007 e TASKIT-008;
-- **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105 e TASKIT-106;
+- **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105, TASKIT-106 e TASKIT-108;
 - **M2:** TASKIT-201, TASKIT-202, TASKIT-203 e TASKIT-204.
 
 ### Estado operacional
@@ -40,7 +40,8 @@ Um item só entra como concluído aqui quando os critérios de aceite relevantes
 - Preview usa Neon `development` e Neon Auth de development;
 - Production usa Neon `main` e Neon Auth de production;
 - o release gate consulta o Neon real, valida schema e confirma alinhamento Auth/banco antes de considerar o ambiente saudável;
-- TASKIT-204 está publicado em produção.
+- TASKIT-204 está publicado em produção;
+- TASKIT-108 está publicado em produção com landing pública, assets de marca, favicon e fundação de SEO validados.
 
 ### Próximos itens
 
@@ -325,6 +326,35 @@ Adicionar Google como método conveniente de autenticação do TaskIT sem transf
 
 ### Regra arquitetural
 A identidade de login e uma futura conexão Google Calendar são relações distintas. Mesmo quando a pessoa entra com Google, o acesso às agendas só pode ser concedido por um consentimento incremental e explícito do M4.
+
+---
+
+## TASKIT-108 — Landing pública, identidade visual e SEO
+
+**Prioridade:** P0
+**Depende de:** TASKIT-006, TASKIT-102
+
+### Objetivo
+Substituir o placeholder técnico de `/` por uma entrada pública do TaskIT que explique o produto, fortaleça a identidade da marca e direcione corretamente para autenticação.
+
+### Escopo
+- landing responsiva desktop/mobile;
+- CTAs de entrar e criar conta;
+- wordmark/mark vetoriais e favicon;
+- metadata SEO, canonical, Open Graph e Twitter;
+- robots, sitemap e manifest;
+- mockups de produto leves em HTML/CSS;
+- E2E da entrada pública e dos caminhos de autenticação;
+- funcionalidades futuras precisam ser identificadas como futuras, sem promessas enganosas.
+
+### Aceite
+- `/` apresenta o produto e não o bootstrap técnico;
+- entrar e criar conta direcionam aos modos corretos de autenticação;
+- logo e favicon carregam como assets próprios;
+- home possui metadata de indexação e compartilhamento;
+- `/login` permanece fora do índice;
+- landing não produz overflow horizontal em mobile/desktop;
+- Production pública entrega a landing no SHA do release e `/api/health` permanece saudável.
 
 ---
 
@@ -860,9 +890,9 @@ Decidir se dados de uso justificam app empacotado nativo além da PWA.
 
 Primeira trilha de execução:
 
-`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`
+`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107/108 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`
 
-No estado atual, a execução está concluída até TASKIT-204 no caminho crítico. A sequência imediata recomendada é:
+No estado atual, a execução está concluída até TASKIT-204 no caminho crítico, e TASKIT-108 também está concluído como fundação pública do produto. A sequência imediata recomendada é:
 
 `107 → 205 → 206/207 → 301/302`
 
