@@ -23,6 +23,32 @@ Prioridades:
 - **M6 — Qualidade, PWA e beta**
 - **M7 — Inteligência e evolução**
 
+## 2.1 Estado atual de execução
+
+**Atualizado em:** 18 de agosto de 2026.
+
+Um item só entra como concluído aqui quando os critérios de aceite relevantes foram demonstrados e a mudança correspondente está integrada ao `main`.
+
+### Concluídos
+
+- **M0:** TASKIT-001, TASKIT-002, TASKIT-003, TASKIT-004, TASKIT-005, TASKIT-006, TASKIT-007 e TASKIT-008;
+- **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105 e TASKIT-106;
+- **M2:** TASKIT-201, TASKIT-202, TASKIT-203 e TASKIT-204.
+
+### Estado operacional
+
+- Preview usa Neon `development` e Neon Auth de development;
+- Production usa Neon `main` e Neon Auth de production;
+- o release gate consulta o Neon real, valida schema e confirma alinhamento Auth/banco antes de considerar o ambiente saudável;
+- TASKIT-204 está publicado em produção.
+
+### Próximos itens
+
+1. **TASKIT-107 — Entrar com Google (identidade apenas)**;
+2. **TASKIT-205 — Lista e edição contextual de tarefas**.
+
+O login com Google não concede acesso ao Google Calendar. A autorização de Calendar permanece uma capacidade opcional e separada no M4.
+
 ---
 
 # M0 — Fundação e setup
@@ -271,6 +297,37 @@ Escolher autenticação sem acoplar login à permissão do Google Calendar.
 
 ---
 
+## TASKIT-107 — Entrar com Google (identidade apenas)
+
+**Prioridade:** P0
+**Depende de:** TASKIT-102, TASKIT-005
+
+### Objetivo
+Adicionar Google como método conveniente de autenticação do TaskIT sem transformar o login em consentimento para Google Calendar.
+
+### Escopo
+- configurar o provider Google suportado pelo Neon Auth/Better Auth;
+- adicionar ação “Continuar com Google” na entrada de autenticação;
+- usar somente scopes necessários para identidade, perfil e e-mail;
+- definir comportamento seguro de criação/vinculação de conta quando o e-mail já existir;
+- manter a mesma sessão server-side e o mesmo modelo de ownership já usados pelo login por e-mail/senha;
+- configurar redirect URIs e credenciais separadas para development/preview e production;
+- manter segredos fora do repositório.
+
+### Aceite
+- usuário pode entrar/criar conta com Google;
+- login com Google não solicita scopes do Google Calendar;
+- login por e-mail/senha continua funcionando;
+- identidade Google converge para o mesmo `app_user` do domínio, sem criar um segundo modelo de usuário;
+- erros/cancelamento do OAuth têm recuperação clara;
+- Preview e Production usam configurações corretas e isoladas;
+- revogar futura permissão de Calendar não invalida a conta TaskIT.
+
+### Regra arquitetural
+A identidade de login e uma futura conexão Google Calendar são relações distintas. Mesmo quando a pessoa entra com Google, o acesso às agendas só pode ser concedido por um consentimento incremental e explícito do M4.
+
+---
+
 # M2 — Projetos, tarefas e inbox
 
 ## TASKIT-201 — Schema de projetos
@@ -463,11 +520,13 @@ Calcular tempo planejado, disponível e conflito básico.
 **Prioridade:** P0
 
 ### Objetivo
-Configurar consentimento e credenciais de produção/dev necessários à integração.
+Configurar consentimento e credenciais de production/development necessários à integração com Google Calendar sem reutilizar silenciosamente o consentimento de login.
 
 ### Aceite
 - app de consentimento identificado como TaskIT;
+- Google Calendar API habilitada;
 - redirect URIs corretas por ambiente;
+- configuração distingue autenticação de identidade e autorização de Calendar;
 - segredos fora do repositório;
 - documentação do setup reproduzível.
 
@@ -488,7 +547,8 @@ Configurar consentimento e credenciais de produção/dev necessários à integra
 - desconexão/revogação.
 
 ### Aceite
-- decisão documentada antes da implementação completa.
+- decisão documentada antes da implementação completa;
+- login Google e autorização Calendar permanecem fluxos independentes.
 
 ---
 
@@ -499,9 +559,10 @@ Configurar consentimento e credenciais de produção/dev necessários à integra
 
 ### Aceite
 - conexão opcional;
-- consentimento separado de login;
+- consentimento separado de login, inclusive para quem entrou no TaskIT usando Google;
+- conexão Calendar é persistida como autorização própria, não inferida da identidade de login;
 - status claro;
-- revogação/desconexão remove acesso local apropriado;
+- revogação/desconexão remove acesso local apropriado sem encerrar a conta TaskIT;
 - tokens nunca chegam ao client desnecessariamente.
 
 ---
@@ -512,9 +573,10 @@ Configurar consentimento e credenciais de produção/dev necessários à integra
 **Depende de:** TASKIT-403
 
 ### Aceite
-- listar calendários acessíveis;
-- usuário escolhe quais bloqueiam disponibilidade;
-- escolha persistida.
+- listar calendários acessíveis pela conexão autorizada;
+- usuário escolhe uma ou mais agendas que bloqueiam disponibilidade;
+- escolha persistida por calendário, sem assumir apenas a agenda principal;
+- seleção pode ser alterada sem refazer o login do TaskIT.
 
 ---
 
@@ -798,7 +860,11 @@ Decidir se dados de uso justificam app empacotado nativo além da PWA.
 
 Primeira trilha de execução:
 
-`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`
+`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`
+
+No estado atual, a execução está concluída até TASKIT-204 no caminho crítico. A sequência imediata recomendada é:
+
+`107 → 205 → 206/207 → 301/302`
 
 Itens P1 podem entrar quando suas dependências estiverem maduras sem bloquear o caminho crítico.
 
@@ -813,6 +879,7 @@ Para cada item, o engenheiro de IA deve:
 5. executar verificações;
 6. revisar o diff;
 7. criar commit com o ID ou intenção claramente rastreável;
-8. atualizar este backlog se requisito/decisão aprovada mudar.
+8. atualizar este backlog se requisito/decisão aprovada mudar;
+9. atualizar `2.1 Estado atual de execução` quando um item atingir todos os critérios de conclusão.
 
 O agente não pode marcar um item como concluído apenas porque “o código foi escrito”; os critérios de aceite precisam ser demonstravelmente atendidos.
