@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Button, TextField } from "@/components/ui";
 import { signInAction, signUpAction } from "@/server/auth/actions";
 
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Entrar ou criar conta",
+  description: "Acesse sua conta TaskIT ou crie uma nova conta para começar.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  alternates: {
+    canonical: "/login",
+  },
+};
 
 type LoginPageProps = {
   searchParams: Promise<{
