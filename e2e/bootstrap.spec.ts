@@ -39,6 +39,9 @@ test("routes public landing actions to the correct authentication mode", async (
       name: "Que bom ter você de volta.",
     }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Continuar com Google" }),
+  ).toBeVisible();
 
   await page.goto("/");
   await page
@@ -48,6 +51,12 @@ test("routes public landing actions to the correct authentication mode", async (
   await expect(page).toHaveURL(/\/login\?mode=signup/);
   await expect(
     page.getByRole("heading", { level: 1, name: "Crie sua conta." }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Continuar com Google" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Google Calendar continua opcional."),
   ).toBeVisible();
 });
 
