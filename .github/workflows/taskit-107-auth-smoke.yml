@@ -65,14 +65,29 @@ jobs:
           }
 
           const socialData = await social.json();
-          const authorizationUrl = String(socialData?.url ?? "");
+          const initUrl = String(socialData?.url ?? "");
 
-          if (!authorizationUrl) {
-            throw new Error("Google OAuth response did not include an authorization URL");
+          if (!initUrl) {
+            throw new Error("Google OAuth response did not include an init URL");
           }
 
-          const parsedAuthorizationUrl = new URL(authorizationUrl);
+          const initResponse = await fetch(initUrl, { redirect: "manual" });
+          const providerLocation = initResponse.headers.get("location");
+
+          if (!providerLocation) {
+            throw new Error(
+              `Google OAuth init did not return a redirect (HTTP ${initResponse.status})`,
+            );
+          }
+
+          const providerUrl = new URL(providerLocation);
+          if (!providerUrl.hostname.endsWith("google.com")) {
+            throw new Error(
+              `OAuth init redirected to unexpected host: ${providerUrl.hostname}`,
+            );
+          }
+
           console.log(
-            `google oauth initiation: ${parsedAuthorizationUrl.hostname}${parsedAuthorizationUrl.pathname}`,
+            `google oauth initiation: ok (${providerUrl.hostname}${providerUrl.pathname})`,
           );
           NODE
