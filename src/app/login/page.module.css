@@ -39,10 +39,50 @@
   color: var(--color-text-muted);
 }
 
+.socialAuth {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+.googleButton {
+  width: 100%;
+}
+
+.googleIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+}
+
+.socialError {
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  color: var(--color-ink-700);
+}
+
+.divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-6);
+  color: var(--color-text-muted);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  border-top: 1px solid var(--color-border);
+}
+
 .form {
   display: grid;
   gap: var(--space-5);
-  margin-top: var(--space-8);
+  margin-top: var(--space-6);
 }
 
 .submit {

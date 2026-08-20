@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button, TextField } from "@/components/ui";
 import { signInAction, signUpAction } from "@/server/auth/actions";
 
+import { GoogleSignInButton } from "./google-sign-in";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -27,6 +28,8 @@ type LoginPageProps = {
 };
 
 const errorMessages: Record<string, string> = {
+  "google-signin-failed":
+    "Não foi possível concluir o login com Google. Tente novamente.",
   "invalid-credentials":
     "E-mail ou senha não conferem. Revise e tente novamente.",
   "invalid-signup":
@@ -73,6 +76,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             {errorMessage}
           </p>
         ) : null}
+
+        <GoogleSignInButton returnTo={returnTo} />
+
+        <div className={styles.divider} aria-hidden="true">
+          <span>ou continue com e-mail</span>
+        </div>
 
         <form
           action={isSignUp ? signUpAction : signInAction}
