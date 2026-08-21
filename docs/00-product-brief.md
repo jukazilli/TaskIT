@@ -16,7 +16,7 @@ Planejadores tradicionais costumam falhar em pelo menos um destes pontos:
 - exigem manutenção excessiva do próprio sistema;
 - fazem o usuário planejar de forma otimista sem considerar disponibilidade real.
 
-TaskIT resolve isso criando um plano semanal visual, executável e ajustável.
+TaskIT resolve isso criando um plano semanal visual, executável e ajustável — e validando se o esforço conhecido realmente cabe no tempo disponível antes dos prazos.
 
 ## 3. Público inicial
 
@@ -26,12 +26,15 @@ Pessoas que estudam de forma recorrente — faculdade, concursos, certificaçõe
 
 > Transformar objetivos de estudo em uma semana clara, realista e executável.
 
-TaskIT deve responder rapidamente a quatro perguntas:
+TaskIT deve responder rapidamente a cinco perguntas:
 
 1. O que preciso fazer?
 2. O que importa mais agora?
 3. Quando vou fazer?
-4. Estou avançando no ritmo esperado?
+4. Isso realmente cabe no tempo que tenho?
+5. Estou avançando no ritmo esperado?
+
+A tese central evolui de organizar tarefas para **fazer caber**: transformar demanda, esforço, prazos e disponibilidade em um plano possível.
 
 ## 5. Personalidade da marca
 
@@ -70,7 +73,10 @@ Os valores abaixo são tokens de partida, sujeitos a validação de contraste:
 - semana é a unidade principal de operação;
 - projeto/objetivo oferece contexto de longo prazo;
 - sessão de estudo é a unidade de tempo executável;
-- tarefas podem existir sem data, mas o produto deve incentivar alocação realista.
+- tarefas podem existir sem data, mas o produto deve incentivar alocação realista;
+- tempo é um recurso finito: uma lista de tarefas não deve ser tratada automaticamente como um plano possível;
+- sessão de estudo consome um intervalo real da disponibilidade;
+- conflitos de capacidade devem ser explicáveis em linguagem humana, sem jargão industrial.
 
 ### Interface
 - baixa densidade por padrão;
@@ -117,4 +123,4 @@ O MVP não deve tentar ser:
 
 ## 10. Definição de sucesso do MVP
 
-O MVP é bem-sucedido quando um usuário consegue conectar ou ignorar o Google Calendar, criar seus objetivos, organizar tarefas, montar a semana, enxergar conflitos, acompanhar progresso e replanejar rapidamente em celular ou desktop sem precisar aprender um sistema complexo.
+O MVP é bem-sucedido quando um usuário consegue conectar ou ignorar o Google Calendar, criar seus objetivos, organizar tarefas, informar disponibilidade suficiente para planejar, montar uma semana possível, enxergar conflitos temporais e de capacidade, acompanhar progresso e replanejar rapidamente em celular ou desktop sem precisar aprender um sistema complexo.

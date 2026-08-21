@@ -25,7 +25,7 @@ Prioridades:
 
 ## 2.1 Estado atual de execução
 
-**Atualizado em:** 18 de agosto de 2026.
+**Atualizado em:** 20 de agosto de 2026.
 
 Um item só entra como concluído aqui quando os critérios de aceite relevantes foram demonstrados e a mudança correspondente está integrada ao `main`.
 
@@ -33,7 +33,8 @@ Um item só entra como concluído aqui quando os critérios de aceite relevantes
 
 - **M0:** TASKIT-001, TASKIT-002, TASKIT-003, TASKIT-004, TASKIT-005, TASKIT-006, TASKIT-007 e TASKIT-008;
 - **M1:** TASKIT-101, TASKIT-102, TASKIT-103, TASKIT-104, TASKIT-105, TASKIT-106 e TASKIT-108;
-- **M2:** TASKIT-201, TASKIT-202, TASKIT-203 e TASKIT-204.
+- **M2:** TASKIT-201, TASKIT-202, TASKIT-203 e TASKIT-204;
+- **M3 (fundação arquitetural):** TASKIT-300 — modelo de planejamento por capacidade canonicalizado antes da implementação de sessões/motor.
 
 ### Estado operacional
 
@@ -45,10 +46,17 @@ Um item só entra como concluído aqui quando os critérios de aceite relevantes
 
 ### Próximos itens
 
-1. **TASKIT-107 — Entrar com Google (identidade apenas)**;
-2. **TASKIT-205 — Lista e edição contextual de tarefas**.
+1. **TASKIT-205 — Task Row + edição contextual**;
+2. **TASKIT-109 — Configurar disponibilidade típica para planejamento**;
+3. **TASKIT-301 — Schema de sessões de estudo**;
+4. **TASKIT-302 — Motor de planejamento e capacidade**;
+5. **TASKIT-305 — Criar sessões a partir da tarefa**;
+6. **TASKIT-303/304 — Visão Semana desktop/mobile**;
+7. **TASKIT-306 — Concluir e replanejar sessão**.
 
-O login com Google não concede acesso ao Google Calendar. A autorização de Calendar permanece uma capacidade opcional e separada no M4.
+TASKIT-107 permanece **pausado e não concluído** após a tentativa com o provider gerenciado. Uma futura revisão pode adotar OAuth próprio no Google Cloud, mas essa alternativa ainda não é decisão arquitetural e não bloqueia o núcleo do produto. Login e autorização de Google Calendar continuam capacidades separadas.
+
+Não implementar M3 com o antigo conceito de “carga” para depois refazê-lo. `docs/07-planning-capacity-model.md` e ADR 0007 são referência obrigatória para o caminho crítico de planejamento.
 
 ---
 
@@ -301,6 +309,7 @@ Escolher autenticação sem acoplar login à permissão do Google Calendar.
 ## TASKIT-107 — Entrar com Google (identidade apenas)
 
 **Prioridade:** P0
+**Estado:** pausado; não bloqueia o caminho crítico do MVP de planejamento.
 **Depende de:** TASKIT-102, TASKIT-005
 
 ### Objetivo
@@ -358,6 +367,32 @@ Substituir o placeholder técnico de `/` por uma entrada pública do TaskIT que 
 
 ---
 
+## TASKIT-109 — Configurar disponibilidade típica para planejamento
+
+**Prioridade:** P0
+**Depende de:** TASKIT-103, TASKIT-106
+
+### Objetivo
+Permitir que o usuário mantenha as janelas recorrentes que representam quando normalmente existe tempo planejável, usando `availability_window` já existente.
+
+### Escopo
+- editar dias e intervalos normalmente disponíveis;
+- respeitar timezone e semana configurados;
+- permitir múltiplas janelas no mesmo dia quando necessário;
+- não assumir 24 horas disponíveis;
+- não introduzir automaticamente buffer, preferência de período ou regras avançadas;
+- não persistir tempo livre derivado.
+
+### Aceite
+- usuário consulta e altera disponibilidade típica em mobile/desktop;
+- intervalos inválidos são rejeitados;
+- ownership é garantido no servidor;
+- estado vazio é válido e não quebra o produto;
+- TASKIT-302 consome essas janelas como capacidade potencial;
+- testes cobrem ordenação, intervalos do mesmo dia e timezone.
+
+---
+
 # M2 — Projetos, tarefas e inbox
 
 ## TASKIT-201 — Schema de projetos
@@ -411,17 +446,31 @@ Capturar tarefa com título como único dado obrigatório.
 
 ---
 
-## TASKIT-205 — Lista e edição contextual de tarefas
+## TASKIT-205 — Task Row + edição contextual
 
 **Prioridade:** P0
 **Depende de:** TASKIT-203
 
-### Aceite
+### Objetivo
+Transformar a captura rápida em tarefas que recebem o contexto mínimo necessário para planejamento sem tirar o usuário da lista.
+
+### Escopo
 - Task Row de baixa densidade;
-- editar sem navegação desnecessária;
+- edição contextual de título, projeto, prioridade, prazo, estimativa e notas;
 - concluir/reabrir;
-- filtros básicos;
-- acessível por teclado onde aplicável.
+- prazo e estimativa aparecem somente quando relevantes;
+- tarefa sem estimativa continua permitida;
+- nenhuma regra de capacidade é recalculada na UI;
+- preservar contexto/posição após editar.
+
+### Aceite
+- editar sem navegação desnecessária;
+- concluir/reabrir mantém ownership e histórico aplicável;
+- estimativa e prazo persistem para o futuro motor;
+- erros preservam alterações quando possível;
+- loading/empty/error cobertos;
+- acessível por teclado;
+- mobile usa interação contextual apropriada.
 
 ---
 
@@ -451,43 +500,92 @@ Capturar tarefa com título como único dado obrigatório.
 
 # M3 — Planejamento semanal e sessões
 
-## TASKIT-301 — Schema de sessões de estudo
+## TASKIT-300 — Fundação arquitetural do planejamento por capacidade
 
 **Prioridade:** P0
-**Depende de:** TASKIT-203
+**Estado:** concluído por esta canonicalização quando integrada ao `main`.
+
+### Objetivo
+Incorporar tempo como recurso finito antes de criar StudySession e o motor semanal definitivo.
+
+### Escopo
+- revisar documentação, migrations, Task, preferências/disponibilidade e fronteiras atuais;
+- criar `docs/07-planning-capacity-model.md`;
+- registrar ADR 0007;
+- confirmar o que pode ser reutilizado sem migration;
+- definir invariantes, linguagem, testes e fronteiras determinísticas;
+- recanonicalizar o caminho crítico.
 
 ### Aceite
-- tarefa pode gerar múltiplas sessões;
-- início/fim e status;
-- timezone tratado corretamente;
-- histórico necessário não é perdido ao reagendar.
+- Task permanece demanda e StudySession permanece alocação temporal;
+- `estimate_minutes`, `due_date` e `availability_window` são reutilizados;
+- nenhuma migration aplicada é editada;
+- nenhuma coluna especulativa é criada;
+- IA fica posterior ao cálculo determinístico;
+- próximos itens de M3 referenciam o novo modelo.
 
 ---
 
-## TASKIT-302 — Motor de carga semanal
+## TASKIT-301 — Schema de sessões de estudo
 
 **Prioridade:** P0
-**Depende de:** TASKIT-301, TASKIT-103
+**Depende de:** TASKIT-203, TASKIT-300
 
 ### Objetivo
-Calcular tempo planejado, disponível e conflito básico.
+Persistir a alocação real de partes da demanda de uma tarefa no tempo.
 
 ### Aceite
-- regras em domínio puro;
-- testes unitários abrangem bordas de dia/semana/timezone;
-- cálculo é explicável.
+- tarefa pode gerar zero, uma ou múltiplas sessões;
+- cada sessão possui início/fim válidos e status suficiente para planejamento/conclusão/cancelamento;
+- ownership é garantido;
+- timezone é tratado nas bordas sem horário ambíguo;
+- histórico necessário não é perdido ao reagendar;
+- schema não duplica duração/capacidade derivável sem necessidade;
+- migration nova preserva 0001–0004 e é validada em development antes de produção.
+
+---
+
+## TASKIT-302 — Motor de planejamento e capacidade
+
+**Prioridade:** P0
+**Depende de:** TASKIT-109, TASKIT-301, TASKIT-300
+
+### Objetivo
+Calcular de forma determinística se a demanda conhecida cabe na capacidade disponível no dia, semana e antes do prazo.
+
+### Escopo
+- disponibilidade potencial por intervalos recorrentes;
+- união de intervalos ocupados;
+- esforço estimado, concluído, futuro planejado e ainda sem horário;
+- minutos disponíveis, planejados, necessários, livres e em déficit;
+- conflito temporal e conflito de capacidade;
+- viabilidade até prazo;
+- resultado explicável.
+
+### Aceite
+- regras em domínio puro, sem SQL/React/LLM;
+- cálculo funciona para dia, semana e intervalo até prazo;
+- tempo posterior ao prazo não resolve demanda anterior;
+- tarefa sem estimativa não quebra o sistema;
+- intervalos sobrepostos são normalizados;
+- testes abrangem timezone, DST quando aplicável, ausência de disponibilidade, múltiplas sessões, sobrecarga e prazos;
+- valores derivados não viram fonte de verdade persistida sem necessidade;
+- cálculo é reproduzível e explicável.
 
 ---
 
 ## TASKIT-303 — Visão Semana desktop
 
 **Prioridade:** P0
-**Depende de:** TASKIT-301, TASKIT-302
+**Depende de:** TASKIT-301, TASKIT-302, TASKIT-305
 
 ### Aceite
 - segunda-domingo conforme preferência;
 - sessões distribuídas no tempo;
 - criar e mover sessões;
+- distinguir disponibilidade potencial, ocupações e espaço livre sem heatmap excessivo;
+- indicar dias apertados/sobrecarregados com linguagem humana e não somente cor;
+- mostrar esforço ainda sem horário quando relevante;
 - informação externa terá slot visual preparado;
 - navegação por semana.
 
@@ -496,39 +594,47 @@ Calcular tempo planejado, disponível e conflito básico.
 ## TASKIT-304 — Visão Semana mobile
 
 **Prioridade:** P0
-**Depende de:** TASKIT-301, TASKIT-302
+**Depende de:** TASKIT-301, TASKIT-302, TASKIT-305
 
 ### Aceite
 - experiência de toque adequada;
 - trocar dias/semana com poucos passos;
 - reagendamento sem exigir drag preciso;
-- mantém clareza de carga.
+- comunicar espaço livre, sobrecarga e esforço sem horário sem painel analítico;
+- ações de resolver semana ficam próximas ao contexto;
+- mantém clareza de capacidade com baixa densidade.
 
 ---
 
 ## TASKIT-305 — Criar sessões a partir de tarefa
 
 **Prioridade:** P0
-**Depende de:** TASKIT-301
+**Depende de:** TASKIT-301, TASKIT-302
 
 ### Aceite
 - usar estimativa como auxílio, não obrigação;
+- mostrar esforço concluído/planejado e ainda sem horário quando conhecido;
 - permitir dividir em várias sessões;
 - impedir intervalos inválidos;
-- atualizar carga imediatamente.
+- avaliar a janela proposta contra capacidade e prazo sem retirar controle do usuário;
+- atualizar diagnóstico imediatamente;
+- não reorganizar silenciosamente compromissos existentes.
 
 ---
 
 ## TASKIT-306 — Concluir e replanejar sessão
 
 **Prioridade:** P0
-**Depende de:** TASKIT-305
+**Depende de:** TASKIT-303, TASKIT-304, TASKIT-305
 
 ### Aceite
 - concluir não força conclusão da tarefa;
 - sessão perdida pode ser movida/dividida/removida da semana;
-- linguagem sem julgamento;
-- progresso recalculado.
+- histórico necessário é preservado;
+- capacidade, esforço restante e risco são recalculados;
+- quando não couber, oferecer alternativas determinísticas simples antes de IA;
+- mudanças relevantes continuam sob controle do usuário;
+- linguagem sem julgamento.
 
 ---
 
@@ -604,7 +710,8 @@ Configurar consentimento e credenciais de production/development necessários à
 
 ### Aceite
 - listar calendários acessíveis pela conexão autorizada;
-- usuário escolhe uma ou mais agendas que bloqueiam disponibilidade;
+- usuário escolhe uma ou mais agendas relevantes;
+- cada agenda selecionada define se bloqueia disponibilidade ou é apenas informativa;
 - escolha persistida por calendário, sem assumir apenas a agenda principal;
 - seleção pode ser alterada sem refazer o login do TaskIT.
 
@@ -631,6 +738,8 @@ Configurar consentimento e credenciais de production/development necessários à
 
 ### Aceite
 - eventos externos distinguíveis, porém discretos;
+- somente fontes bloqueadoras reduzem capacidade;
+- eventos sobrepostos não descontam disponibilidade duas vezes;
 - afetam cálculo de conflito/capacidade conforme configuração;
 - TaskIT não oferece edição indevida de evento externo.
 
@@ -684,9 +793,10 @@ Configurar consentimento e credenciais de production/development necessários à
 
 ### Aceite
 - planejado vs concluído;
-- carga semanal;
+- disponível, planejado, ainda sem horário e déficit quando existir;
 - poucos riscos acionáveis;
-- cálculo testado e explicável.
+- linguagem simples, sem percentuais opacos;
+- cálculo proveniente do motor determinístico e explicável.
 
 ---
 
@@ -697,6 +807,8 @@ Configurar consentimento e credenciais de production/development necessários à
 
 ### Aceite
 - risco baseado em regra objetiva documentada;
+- considera esforço restante, prazo e capacidade disponível anterior ao prazo;
+- distingue falta de horário de sobreposição direta;
 - não usa linguagem de culpa;
 - usuário consegue agir a partir do aviso.
 
@@ -848,13 +960,14 @@ Não capturar conteúdo textual de estudos por padrão em analytics.
 ## TASKIT-702 — Spike de planejamento assistido por IA
 
 **Prioridade:** P2
-**Depende de:** dados de uso e regras estáveis
+**Depende de:** TASKIT-302, dados de uso e regras estáveis
 
 ### Objetivo
 Avaliar IA como assistente de planejamento, nunca como requisito para o core funcionar.
 
 ### Aceite
 - proposta mede benefício real;
+- IA recebe diagnóstico produzido pelo motor determinístico e não recalcula capacidade como fonte da verdade;
 - usuário confirma mudanças relevantes;
 - IA recebe apenas contexto necessário;
 - ações são explicáveis e reversíveis.
@@ -864,10 +977,11 @@ Avaliar IA como assistente de planejamento, nunca como requisito para o core fun
 ## TASKIT-703 — Sugestão inteligente de replanejamento
 
 **Prioridade:** P2
-**Depende de:** TASKIT-702
+**Depende de:** TASKIT-302, TASKIT-306, TASKIT-702
 
 ### Aceite
-- considera disponibilidade, prazo, esforço e Calendar;
+- parte de alternativas e diagnósticos determinísticos de disponibilidade, prazo, esforço e Calendar;
+- pode ordenar ou explicar opções, mas não inventar capacidade;
 - não executa mudança silenciosa;
 - mostra proposta simples ao usuário.
 
@@ -890,13 +1004,15 @@ Decidir se dados de uso justificam app empacotado nativo além da PWA.
 
 Primeira trilha de execução:
 
-`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 107/108 → 201/203 → 202/204/205 → 301/302 → 303/304/305 → 306 → 401/402 → 403/404/405 → 406 → 501/502 → 601/603/605/606/607`
+`001 → 002/006/008 → 003/004 → 005 → 101 → 102/103 → 104/105/106 → 108 → 201/203 → 202/204 → 300 → 205 → 109 → 301 → 302 → 305 → 303/304 → 306 → 401/402 → 403/404/405 → 406 → 501/502/503 → 601/603/605/606/607`
 
-No estado atual, a execução está concluída até TASKIT-204 no caminho crítico, e TASKIT-108 também está concluído como fundação pública do produto. A sequência imediata recomendada é:
+No estado atual, TASKIT-204 e TASKIT-108 estão concluídos, TASKIT-300 é concluído por esta canonicalização e TASKIT-107 permanece pausado. O caminho crítico imediato passa a ser:
 
-`107 → 205 → 206/207 → 301/302`
+`205 → 109 → 301 → 302 → 305 → 303/304 → 306`
 
-Itens P1 podem entrar quando suas dependências estiverem maduras sem bloquear o caminho crítico.
+TASKIT-206/207 são P1 e não devem atrasar a chegada ao planejamento semanal. TASKIT-109 pode ser desenvolvido em paralelo técnico com TASKIT-301, mas precisa estar pronto antes de TASKIT-302.
+
+Depois do núcleo de M3, seguir para Calendar como fonte de ocupações, Dashboard/risco e somente depois inteligência assistida. Itens P1 podem entrar quando suas dependências estiverem maduras sem bloquear o caminho crítico.
 
 # 4. Regra para consumo por agente
 

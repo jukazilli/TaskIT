@@ -14,7 +14,7 @@ Cada fluxo deve pedir apenas as informações necessárias naquele momento. Camp
 
 ### 2.2 Planejamento realista
 
-O sistema deve considerar disponibilidade real, eventos externos, duração estimada e carga acumulada antes de sugerir que algo “cabe” na semana.
+O sistema deve considerar disponibilidade real, eventos externos bloqueadores, duração estimada, sessões já planejadas e prazos antes de sugerir que algo “cabe” na semana. Deve distinguir sobreposição de horários de falta de tempo total no período.
 
 ### 2.3 Replanejamento é comportamento normal
 
@@ -60,10 +60,11 @@ Campos adicionais podem ser preenchidos sem interromper a captura.
 ### 3.3 Planejar uma tarefa
 
 1. seleciona tarefa;
-2. escolhe duração ou usa estimativa existente;
-3. vê janelas possíveis;
+2. informa ou revisa a estimativa quando necessário;
+3. vê quanto esforço ainda precisa de horário e as janelas possíveis antes do prazo;
 4. cria uma ou mais sessões;
-5. sistema atualiza carga e conflitos.
+5. sistema atualiza capacidade livre, esforço ainda sem horário e conflitos;
+6. se não couber, explica quanto tempo falta e oferece ações de replanejamento.
 
 ### 3.4 Replanejar sessão perdida
 
@@ -113,7 +114,8 @@ Regras:
 - evitar onboarding em carrossel longo;
 - preferir aprender fazendo;
 - não usar badges vermelhos permanentes para tarefas atrasadas;
-- agrupar itens por intenção, não somente por atributo técnico.
+- agrupar itens por intenção, não somente por atributo técnico;
+- capacidade deve reduzir ansiedade e antecipar problemas, não criar uma nova métrica de cobrança.
 
 ## 7. Mensagens e microcopy
 
@@ -131,6 +133,9 @@ Exemplos de linguagem:
 - “Mover para amanhã” em vez de “Você falhou em concluir”.
 - “3 sessões ainda sem horário” em vez de “Planejamento incompleto”.
 - “Conflito com outro compromisso” em vez de “Erro de agenda”.
+- “Sua quarta-feira está cheia demais” em vez de “Capacidade utilizada: 137%”.
+- “Faltam cerca de 2 horas na sua semana” em vez de “Déficit de capacidade: 120 minutos”.
+- “Ainda existem atividades que precisam de espaço” em vez de “Planejamento incompleto”.
 
 ## 8. Erros
 

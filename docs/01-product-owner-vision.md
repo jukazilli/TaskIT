@@ -4,7 +4,7 @@
 
 TaskIT deve ser o sistema pessoal de execução de estudos do usuário. A experiência começa no objetivo de médio/longo prazo, desce para projetos e tarefas e termina em blocos concretos de tempo na semana.
 
-O produto não deve premiar planejamento excessivo. Deve privilegiar clareza, execução e replanejamento simples.
+O produto não deve premiar planejamento excessivo. Deve privilegiar clareza, execução e replanejamento simples. A partir do modelo de capacidade, também deve distinguir uma lista desejada de um plano que realmente cabe no tempo do usuário.
 
 ## 2. Modelo mental do produto
 
@@ -71,6 +71,23 @@ Capacidades:
 - dividir uma tarefa em várias sessões;
 - mover itens não concluídos sem punição visual.
 
+#### 3.3.1 Planejamento por capacidade
+
+O planejamento semanal deve comparar demanda de esforço com capacidade real disponível.
+
+Regras de produto:
+
+- tempo disponível é finito;
+- disponibilidade típica é apenas capacidade potencial;
+- sessões e compromissos bloqueadores consomem intervalos;
+- prazo limita quais intervalos podem satisfazer uma tarefa;
+- TaskIT deve distinguir conflito temporal de falta de tempo total;
+- o cálculo inicial é determinístico e explicável;
+- tarefa sem estimativa continua válida, mas o diagnóstico deve reconhecer esforço desconhecido;
+- quando o plano não couber, oferecer replanejamento sem alterar silenciosamente compromissos importantes.
+
+Na UX, não expor jargão de capacidade. Preferir mensagens como “Faltam cerca de 2 horas para fazer tudo que você planejou”.
+
 ### 3.4 Projetos e objetivos
 
 Cada projeto deve representar um resultado relevante, por exemplo “Certificação AWS”, “Cálculo II” ou “Inglês B2”.
@@ -121,7 +138,7 @@ Capacidades:
 - conclusão parcial;
 - replanejamento.
 
-Uma tarefa pode gerar múltiplas sessões.
+Uma tarefa pode gerar múltiplas sessões. A tarefa representa demanda total; as sessões representam partes dessa demanda alocadas em intervalos reais. Quando houver estimativa, o domínio deve separar esforço concluído, futuro planejado e ainda sem horário.
 
 ### 3.7 Cronograma estilo gestão de projetos
 
@@ -144,6 +161,7 @@ Integração inicial:
 
 - conexão opcional;
 - escolha de calendários a considerar;
+- cada calendário selecionado pode ser bloqueador de tempo ou apenas informativo;
 - leitura de eventos para disponibilidade e conflitos;
 - criação/atualização opcional de sessões TaskIT no Calendar;
 - vínculo persistente entre sessão e evento externo;
@@ -199,7 +217,10 @@ MVP:
 - concluir uma sessão não precisa concluir a tarefa;
 - atrasos devem gerar sugestão de replanejamento, não culpa;
 - qualquer cálculo de progresso precisa ser explicável;
-- calendário externo pode bloquear tempo, mas não altera prioridade da tarefa;
+- calendário externo configurado como bloqueador reduz capacidade, mas não altera prioridade da tarefa;
+- uma semana pode estar inviável mesmo sem sobreposição direta quando o esforço necessário supera o tempo disponível;
+- tempo depois do prazo não torna viável uma tarefa que vence antes;
+- diagnósticos de capacidade devem ser objetivos, testáveis e explicáveis;
 - tarefas sem projeto são permitidas;
 - projetos arquivados permanecem consultáveis;
 - exclusões destrutivas devem oferecer confirmação ou desfazer.
