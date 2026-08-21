@@ -21,7 +21,8 @@ Antes de implementar qualquer item:
 5. `docs/04-engineering-tech-lead.md`;
 6. este documento;
 7. item correspondente do backlog;
-8. ADRs e código existente relacionado.
+8. `docs/07-planning-capacity-model.md` para qualquer item que afete disponibilidade, sessões, semana, Calendar, risco ou replanejamento;
+9. ADRs e código existente relacionado.
 
 O agente deve inspecionar o estado real do repositório antes de assumir que a documentação representa implementação já existente.
 
@@ -157,7 +158,7 @@ Consequências
 
 ### Domínio
 
-Regras devem ser expressas em código puro sempre que possível e acompanhadas por testes.
+Regras devem ser expressas em código puro sempre que possível e acompanhadas por testes. No planejamento por capacidade, minutos, intervalos, esforço, prazo, déficit e viabilidade pertencem ao motor determinístico; um LLM não pode ser usado como fonte da verdade para esses cálculos.
 
 ### Banco
 

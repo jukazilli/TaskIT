@@ -85,6 +85,16 @@ Entidades principais:
 - IDs externos nunca substituem IDs internos;
 - vínculo Calendar deve permitir idempotência e evitar duplicação.
 
+### 5.1 Domínio de planejamento e capacidade
+
+Planejamento por capacidade é regra central. O motor inicial deve ser determinístico, puro e independente de React, SQL, Neon, Google Calendar e LLM.
+
+Fontes: demanda (`Task`), capacidade potencial (`availability_window` no timezone do usuário), ocupações (sessões e eventos externos bloqueadores) e alocação (`StudySession`). O resultado derivado deve explicar minutos disponíveis, planejados, necessários, ainda sem horário, livres, déficit e conflitos.
+
+Regras: unir intervalos sobrepostos; não persistir tempo livre/percentual como fonte de verdade sem necessidade medida; prazo restringe capacidade útil; tarefa sem estimativa continua válida; timezone é parte da regra; IA atua somente após o diagnóstico.
+
+Referências: `docs/07-planning-capacity-model.md` e ADR 0007.
+
 ## 6. Autenticação e autorização
 
 Autenticação da aplicação e autorização do Google Calendar são preocupações distintas.
@@ -184,7 +194,8 @@ Desde o início:
 - métricas de falha de integração Calendar;
 - métricas de latência das rotas críticas;
 - logs sem conteúdo sensível;
-- saúde de sincronização por conexão.
+- saúde de sincronização por conexão;
+- falhas de cálculo/intervalo/timezone rastreáveis sem registrar títulos ou notas pessoais desnecessariamente.
 
 ## 13. Performance
 
@@ -215,7 +226,7 @@ Obrigatório:
 
 ### Unitários
 
-Regras puras: carga, progresso, conflitos, recálculo e status.
+Regras puras: união de intervalos, disponibilidade, esforço restante, capacidade, conflito temporal, conflito de capacidade, viabilidade antes do prazo, progresso, recálculo e status. Cobrir tarefa sem estimativa, ausência de disponibilidade, timezone e DST quando aplicável.
 
 ### Integração
 

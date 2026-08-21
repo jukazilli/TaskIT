@@ -171,7 +171,13 @@ Usado com parcimônia. Deve mostrar progresso útil, nunca decoração vazia.
 
 Entrada rápida, foco imediato no título, teclado-first no desktop e thumb-first no mobile.
 
-### 8.5 Command Palette
+### 8.5 Resumo de capacidade
+
+Quando a interface precisar comunicar viabilidade do plano, usar poucos números acionáveis: tempo disponível, tempo planejado, esforço ainda sem horário e déficit somente quando existir.
+
+Não criar gauges industriais, percentuais opacos ou heatmaps complexos como padrão. Estados como semana apertada ou dia sobrecarregado combinam texto, hierarquia e sinal visual que não depende apenas de cor.
+
+### 8.6 Command Palette
 
 Candidata pós-MVP ou final de MVP para usuários desktop avançados. Não pode ser necessária para operações básicas.
 
@@ -181,7 +187,7 @@ O dashboard deve ser composto por poucas zonas:
 
 - **Agora / Próximo** — próxima sessão e ação imediata;
 - **Hoje** — sessões e compromissos relevantes;
-- **Semana** — progresso e carga resumida;
+- **Semana** — progresso e capacidade resumida, mostrando apenas o necessário para decidir se ainda existe espaço ou esforço sem horário;
 - **Atenção** — no máximo alguns itens com risco real.
 
 Não usar um mosaico de KPIs.
